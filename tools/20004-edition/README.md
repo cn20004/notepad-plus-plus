@@ -44,3 +44,9 @@ py -3 tools/20004-edition/npp20004.py ollama "D:\资料\课程.txt" --model qwen
 这只是**第一批功能的实际代码**，目前尚未修改 Notepad++ C++ 窗口、菜单或品牌，也没有独立 EXE、AI 侧栏、账号管理、自动更新或 Windows 实机验收；60 项规划中的其他功能未完成。后续将增加原生 C++ 插件/面板、配置及迁移、CI 编译等。请不要把本分支作为可直接安装的 Notepad++ 发布版。
 
 GPL 等上游许可遵循原仓库要求。
+
+## AI 图形窗口（新增）
+
+Windows 下载本目录并安装 Python 3.10+、Ollama，运行 `Start-20004-AI.cmd`。图形窗口可以打开本地 TXT/Markdown/JSON/CSV/LOG 文本、输入自定义指令、选择 Ollama 模型、生成结果并保存为新的 Markdown 文件。需要本地模型先安装，例如 `ollama pull qwen2.5:7b`。默认调用 `127.0.0.1:11434`，不启用云端 API。
+
+注意：这是一个**独立桌面 AI 助手窗口**，目前并非 Notepad++ 进程内的原生停靠侧栏；需要依赖 Python 和 Ollama。Windows 构建工作流可以尝试生成 x64 开发版，但必须待 GitHub Actions 成功和实际 Windows 启动验收后才可称为可交付版本。打包的 `Notepad++.exe` 也可能需要额外运行资源，尚未确认可作为独立完整安装包使用。
