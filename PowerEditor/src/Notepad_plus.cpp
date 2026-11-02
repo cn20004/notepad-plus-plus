@@ -4380,6 +4380,8 @@ void Notepad_plus::setTitle()
 	}
 	result += L" - ";
 	result += _pPublicInterface->getClassName();
+	// 20004 Edition: keep personal edition branding in every document title.
+	result += L" - 20004 Edition (Personal Modified Version)";
 
 	if (_isAdministrator)
 		result += L" [Administrator]";
