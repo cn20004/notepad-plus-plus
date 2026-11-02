@@ -32,6 +32,8 @@ jobs:
           New-Item -ItemType Directory -Force dist/NotepadPP-20004-Edition | Out-Null
           Copy-Item $exe.FullName dist/NotepadPP-20004-Edition/Notepad++.exe
           Copy-Item tools/20004-edition/npp20004.py dist/NotepadPP-20004-Edition/
+          Copy-Item tools/20004-edition/ai_desktop.py dist/NotepadPP-20004-Edition/
+          Copy-Item tools/20004-edition/Start-20004-AI.cmd dist/NotepadPP-20004-Edition/
           Copy-Item tools/20004-edition/README.md dist/NotepadPP-20004-Edition/20004-README.md
           Write-Host "Staged $($exe.FullName)"
       - name: Upload Windows x64 developer build
