@@ -24,18 +24,33 @@ jobs:
       - name: Build native Notepad++ x64
         shell: pwsh
         run: msbuild PowerEditor/visual.net/notepadPlus.sln /m /p:Configuration=Release /p:Platform=x64 /v:minimal
-      - name: Stage built files
+      - name: Stage isolated portable developer package
         shell: pwsh
         run: |
           $exe = Get-ChildItem -Path PowerEditor -Filter Notepad++.exe -File -Recurse | Where-Object { $_.FullName -match 'bin|Release' } | Sort-Object LastWriteTime -Descending | Select-Object -First 1
           if (-not $exe) { throw 'Native executable not found after successful MSBuild' }
-          New-Item -ItemType Directory -Force dist/NotepadPP-20004-Edition | Out-Null
-          Copy-Item $exe.FullName dist/NotepadPP-20004-Edition/Notepad++.exe
-          Copy-Item tools/20004-edition/npp20004.py dist/NotepadPP-20004-Edition/
-          Copy-Item tools/20004-edition/ai_desktop.py dist/NotepadPP-20004-Edition/
-          Copy-Item tools/20004-edition/Start-20004-AI.cmd dist/NotepadPP-20004-Edition/
-          Copy-Item tools/20004-edition/README.md dist/NotepadPP-20004-Edition/20004-README.md
-          Write-Host "Staged $($exe.FullName)"
+          $target = 'dist/NotepadPP-20004-Edition'
+          New-Item -ItemType Directory -Force $target | Out-Null
+          Copy-Item $exe.FullName "$target/Notepad++.exe"
+          # Portable mode forces config and session data into its own install directory.
+          New-Item -ItemType File -Force "$target/doLocalConf.xml" | Out-Null
+          Copy-Item tools/20004-edition/npp20004.py "$target/"
+          Copy-Item tools/20004-edition/noteguard.py "$target/"
+          Copy-Item tools/20004-edition/ai_desktop.py "$target/"
+          Copy-Item tools/20004-edition/Start-20004-AI.cmd "$target/"
+          Copy-Item tools/20004-edition/README.md "$target/20004-README.md"
+          Copy-Item tools/20004-edition/NOTEGUARD.md "$target/20004-NOTEGUARD.md"
+          # Include runtime language resources instead of shipping a bare EXE.
+          Copy-Item PowerEditor/src/langs.model.xml "$target/langs.xml"
+          Copy-Item PowerEditor/src/stylers.model.xml "$target/stylers.xml"
+          foreach ($dir in @('PowerEditor/installer/nativeLang','PowerEditor/installer/themes','PowerEditor/installer/functionList','PowerEditor/installer/APIs')) {
+            if (Test-Path $dir) {
+              $name = Split-Path $dir -Leaf
+              Copy-Item $dir "$target/$name" -Recurse -Force
+            }
+          }
+          if (-not (Test-Path "$target/doLocalConf.xml")) { throw 'Isolation marker missing' }
+          Write-Host "Staged isolated portable folder at $target"
       - name: Upload Windows x64 developer build
         uses: actions/upload-artifact@v4
         with:
