@@ -1360,7 +1360,6 @@ BEGIN
         MENUITEM "Set Updater Proxy...",           IDM_CONFUPDATERPROXY
         MENUITEM SEPARATOR
         MENUITEM "Debug Info...",                  IDM_DEBUGINFO
-        MENUITEM "20004 AI Assistant...",          IDM_20004_AI_ASSISTANT
         MENUITEM "About Notepad++ 20004 Edition",   IDM_ABOUT
     END
 
