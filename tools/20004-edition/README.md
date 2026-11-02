@@ -50,3 +50,19 @@ GPL 等上游许可遵循原仓库要求。
 Windows 下载本目录并安装 Python 3.10+、Ollama，运行 `Start-20004-AI.cmd`。图形窗口可以打开本地 TXT/Markdown/JSON/CSV/LOG 文本、输入自定义指令、选择 Ollama 模型、生成结果并保存为新的 Markdown 文件。需要本地模型先安装，例如 `ollama pull qwen2.5:7b`。默认调用 `127.0.0.1:11434`，不启用云端 API。
 
 注意：这是一个**独立桌面 AI 助手窗口**，目前并非 Notepad++ 进程内的原生停靠侧栏；需要依赖 Python 和 Ollama。Windows 构建工作流可以尝试生成 x64 开发版，但必须待 GitHub Actions 成功和实际 Windows 启动验收后才可称为可交付版本。打包的 `Notepad++.exe` 也可能需要额外运行资源，尚未确认可作为独立完整安装包使用。
+
+## OpenCode Go 的 DeepSeek（新加入 API 连接器）
+
+已添加 `opencode_go.py`：支持官方 OpenAI-compatible Chat Completions API，默认 URL：
+
+`https://opencode.ai/inference/go/openai/v1/chat/completions`
+
+默认模型 ID 示例：`deepseek-v4-pro`。OpenCode Go 的模型清单可能发生变化，请以服务端提供的模型列表为准。API Key 不写入源码或仓库，使用运行时输入或 `OPENCODE_GO_API_KEY` 环境变量；仅向设置的服务端发送明确提交的文本。
+
+测试用法：
+
+```powershell
+py -3 tools/20004-edition/opencode_go.py --text "你好，请介绍一下你自己"
+```
+
+**特别注意：现阶段这是可供原生 AI 面板接入的 API 连接模块，不是已经完工的 Notepad++ 内置侧栏。** 目标 UI 应只需在侧栏设置中填写 API Key，其他字段自动使用可修改的官方默认值；凭据应以 Windows DPAPI / Credential Manager 加密保存，而非明文写配置文件。
