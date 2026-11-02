@@ -3731,30 +3731,6 @@ void Notepad_plus::command(int id)
 			}
 		}
 		break;
-
-		case IDM_20004_AI_ASSISTANT:
-		{
-			// Launch the bundled local AI companion without executing arbitrary shell input.
-			wchar_t exePath[MAX_PATH]{};
-			if (::GetModuleFileNameW(nullptr, exePath, MAX_PATH) == 0)
-				break;
-			const auto folder = std::filesystem::path(exePath).parent_path();
-			const auto launcher = folder / L"Start-20004-AI.cmd";
-			if (!std::filesystem::exists(launcher))
-			{
-				::MessageBoxW(_pPublicInterface->getHSelf(),
-					L"AI companion launcher not found alongside Notepad++.exe.\nInstall Python 3.10+ and copy the 20004 companion files next to this executable.",
-					L"20004 Edition - AI Assistant", MB_OK | MB_ICONINFORMATION);
-				break;
-			}
-			auto status = reinterpret_cast<INT_PTR>(::ShellExecuteW(_pPublicInterface->getHSelf(),
-				L"open", launcher.c_str(), nullptr, folder.c_str(), SW_SHOWNORMAL));
-			if (status <= 32)
-				::MessageBoxW(_pPublicInterface->getHSelf(), L"Failed to start the local AI companion.",
-					L"20004 Edition", MB_OK | MB_ICONERROR);
-			break;
-		}
-
 		case IDM_DEBUGINFO:
 		{
 			const bool isFirstTime = !_debugInfoDlg.isCreated();
