@@ -599,6 +599,7 @@
     #define    IDM_CMDLINEARGUMENTS (IDM_ABOUT  + 10)
     //#define    IDM_ONLINESUPPORT    (IDM_ABOUT  + 11)
     #define    IDM_DEBUGINFO        (IDM_ABOUT  + 12)
+    #define    IDM_20004_AI_ASSISTANT (IDM_ABOUT + 30)
 
 
 #define    IDM_SETTING    (IDM + 8000)
