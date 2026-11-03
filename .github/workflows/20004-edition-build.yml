@@ -36,8 +36,6 @@ jobs:
           New-Item -ItemType File -Force "$target/doLocalConf.xml" | Out-Null
           Copy-Item tools/20004-edition/npp20004.py "$target/"
           Copy-Item tools/20004-edition/noteguard.py "$target/"
-          Copy-Item tools/20004-edition/ai_desktop.py "$target/"
-          Copy-Item tools/20004-edition/Start-20004-AI.cmd "$target/"
           Copy-Item tools/20004-edition/README.md "$target/20004-README.md"
           Copy-Item tools/20004-edition/NOTEGUARD.md "$target/20004-NOTEGUARD.md"
           # Include runtime language resources instead of shipping a bare EXE.
