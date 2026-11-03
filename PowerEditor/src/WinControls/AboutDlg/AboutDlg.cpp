@@ -125,6 +125,8 @@ intptr_t CALLBACK AboutDlg::run_dlgProc(UINT message, WPARAM wParam, LPARAM lPar
 		case WM_INITDIALOG:
 		{
 			NppDarkMode::autoSubclassAndThemeChildControls(_hSelf);
+			// 20004 personal fork: explicit identity in the About dialog title.
+			::SetWindowTextW(_hSelf, L"About Notepad++ 20004 Edition - Personal Modified Version");
 
 			HWND compileDateHandle = ::GetDlgItem(_hSelf, IDC_BUILD_DATETIME);
 			wstring buildTime = L"Build time: ";

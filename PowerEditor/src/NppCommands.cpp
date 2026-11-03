@@ -41,6 +41,7 @@
 #include "Notepad_plus_msgs.h"
 #include "NppConstants.h"
 #include "NppDarkMode.h"
+#include "Edition20004AI.h"
 #include "Parameters.h"
 #include "Processus.h"
 #include "ProjectPanel.h"
@@ -3731,7 +3732,36 @@ void Notepad_plus::command(int id)
 			}
 		}
 		break;
-
+		case IDM_20004_AI_PANEL:
+		{
+			Edition20004::panel().open(_pPublicInterface->getHinst(),
+				_pPublicInterface->getHSelf(),_dockingManager);
+			break;
+		}
+		case IDM_20004_AI_SELECTION:
+		{
+			auto textLen = _pEditView->execute(SCI_GETSELTEXT,0,0);
+			if(textLen <= 1 || textLen > 100001) {
+				::MessageBoxW(_pPublicInterface->getHSelf(),
+					L"Select up to 100,000 bytes in the editor first.",
+					L"20004 AI",MB_OK|MB_ICONINFORMATION);
+				break;
+			}
+			std::string selected(static_cast<size_t>(textLen),'\0');
+			_pEditView->execute(SCI_GETSELTEXT,0,reinterpret_cast<LPARAM>(selected.data()));
+			selected.resize(static_cast<size_t>(textLen)-1);
+			try {
+				auto text=Edition20004::fromUtf8(selected);
+				Edition20004::panel().open(_pPublicInterface->getHinst(),
+					_pPublicInterface->getHSelf(),_dockingManager);
+				Edition20004::panel().askSelection(text);
+			}catch(const std::exception&) {
+				::MessageBoxW(_pPublicInterface->getHSelf(),
+					L"Selected text could not be converted from UTF-8.",
+					L"20004 AI",MB_OK|MB_ICONERROR);
+			}
+			break;
+		}
 		case IDM_DEBUGINFO:
 		{
 			const bool isFirstTime = !_debugInfoDlg.isCreated();
