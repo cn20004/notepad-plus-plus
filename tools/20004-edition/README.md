@@ -1,3 +1,11 @@
+# 20004 Edition 原生 AI 面板（最新开发说明）
+
+已在 C++ 主程序新增 `Edition20004AI.h`，通过帮助菜单 `20004 AI Chat (in-app)` 打开同进程停靠面板；`Ask AI about selected text` 将选区送入面板的输入框。支持多轮对话、DeepSeek Chat Completions 和 Windows Credential Manager 保存 API Key；未发布前必须通过 Windows 编译与 API 实测，不应使用之前的 Python 桌面助手作为替代。
+
+重要限制：该版尚未通过 Windows 实机 UI、凭据保存、HTTPS 连通、关闭面板和版本升级验收。API Key 不要提交到仓库。最新分支的 ZIP 以新的 Actions 成功构建产物为准，旧构建不包含本次功能。
+
+---
+
 # Notepad++ 20004 Edition — 首批增强工具
 
 本目录是 **cn20004/notepad-plus-plus** Fork 的实际功能开发，不是已完成的 Windows 修改版。现阶段保留官方 Notepad++ 核心，提供一个 **Python 3.10+ 标准库** 本地辅助程序。原有 Notepad++ 安装不受影响。
